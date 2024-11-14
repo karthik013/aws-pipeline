@@ -2,24 +2,8 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: 'CloudFormation template to create an IAM role'
 
 Resources:
-  MyIAMRole:
-    Type: 'AWS::IAM::Role'
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
     Properties:
-      RoleName: MyNewSampleRole
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: ec2.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Path: '/'
-      Policies:
-        - PolicyName: MyRolePolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 
-                  - 's3:GetObject'
-                Resource: 'arn:aws:s3:::my-bucket/*'
+      BucketName: DOC-EXAMPLE-BUCKET
