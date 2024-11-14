@@ -1,22 +1,30 @@
-AWSTemplateFormatVersion: 2010-09-09
-Description: AWS CloudFormation Sample Template for creating EC2 instance
-Parameters:
-  WebInstanceType:
-    Description: WebServer EC2 instance type
-    Type: String
-    Default: t2.micro
-    ConstraintDescription: must be a valid EC2 instance type.
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template to create an IAM role'
+
 Resources:
-  S3Policy:
-    Type: 'AWS::IAM::Policy'
+  MyIAMRole:
+    Type: 'AWS::IAM::Role'
     Properties:
-      PolicyName: SampleIAMPolicy
-      PolicyDocument:
-        Version: "2012-10-17"
+      RoleName: MyNewRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
-            Action:
-              - 'cloudformation:Describe*'
-              - 'cloudformation:List*'
-              - 'cloudformation:Get*'
-            Resource: '*'
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Path: '/'
+      Policies:
+        - PolicyName: MyRolePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - 's3:GetObject'
+                Resource: 'arn:aws:s3:::my-bucket/*'
+
+Outputs:
+  RoleARN:
+    Description: ARN of the created IAM Role
+    Value: !GetAtt MyIAMRole.Arn
