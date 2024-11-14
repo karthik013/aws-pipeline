@@ -1,4 +1,3 @@
-Type: AWS::SSM::Parameter
-Properties:
-  Type: "String"
-  Value: "/sample/awspipeline"
+template-file-path: ssm.yaml
+parameters: {}
+tags: {}
